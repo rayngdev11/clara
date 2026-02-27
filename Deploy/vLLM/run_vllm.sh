@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=1 vllm serve <model_name> --host 

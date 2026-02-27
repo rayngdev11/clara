@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  vlm:
+    build:
+      context: /home/truongnn/phucth/work-directory
+      dockerfile: Dockerfile
+    image: vlm:latest
+    environment:
+      - MODEL_PATH=/models/vlm/Qwen2-VL-7B-multi-137k_full_maed_v3
+      - CUDA_VISIBLE_DEVICES=1   # <-- chỉ định GPU 1
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+    volumes:
+      - /home/truongnn/phucth/work-directory/vlm:/models/vlm
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]    # Docker Compose tự nhận GPU
