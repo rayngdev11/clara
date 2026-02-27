@@ -12,7 +12,7 @@
 
 This repository contains the source code and deployment infrastructure for **CLARA**, an AI system designed to automatically generate detailed clinical findings and impressions for chest X-rays in Vietnamese. 
 
-This project was developed as a Capstone Project (**FA25AI55**) by students at **FPT University** in collaboration with **Military Hospital 175**. The goal is to serve as an assistive tool to reduce radiologist workload, enhance linguistic consistency, shorten processing time, and improve diagnostic accuracy.
+This project was developed as a Capstone Project by students at **FPT University**. The goal is to serve as an assistive tool to reduce radiologist workload, enhance linguistic consistency, shorten processing time, and improve diagnostic accuracy.
 
 ## Key Highlights
 
