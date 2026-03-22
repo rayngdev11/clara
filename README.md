@@ -75,7 +75,7 @@ It was developed as a **Capstone Project** at **FPT University** and is designed
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/rayngdev11/clara.git
+git clone https://github.com/hoang-nguyensg/clara.git
 cd clara
 ```
 
