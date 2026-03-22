@@ -1,61 +1,76 @@
-<h1 align="center">CLARA - Vision-Language AI for Chest X-ray Caption Automation</h1>
+<h1 align="center">CLARA — Vision-Language AI for Chest X‑ray Reporting</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python Version"/>
-  <img src="https://img.shields.io/badge/Framework-FastAPI-009688.svg" alt="FastAPI"/>
-  <img src="https://img.shields.io/badge/Inference-vLLM-blueviolet.svg" alt="vLLM"/>
-  <img src="https://img.shields.io/badge/Deployment-Triton%20Server-76B900.svg" alt="Triton"/>
-  <img src="https://img.shields.io/badge/Model-Qwen2--VL--7B-orange.svg" alt="Model"/>
+  <img src="https://img.shields.io/badge/Python-3.8+-blue.svg"/>
+  <img src="https://img.shields.io/badge/PyTorch-DeepLearning-red"/>
+  <img src="https://img.shields.io/badge/FastAPI-API-009688"/>
+  <img src="https://img.shields.io/badge/vLLM-Inference-blueviolet"/>
+  <img src="https://img.shields.io/badge/Triton-Serving-76B900"/>
+  <img src="https://img.shields.io/badge/Model-Qwen2--VL--7B-orange"/>
 </p>
 
-## Overview
+---
 
-This repository contains the source code and deployment infrastructure for **CLARA**, an AI system designed to automatically generate detailed clinical findings and impressions for chest X-rays in Vietnamese. 
+##  What is CLARA?
 
-This project was developed as a Capstone Project by students at **FPT University**. The goal is to serve as an assistive tool to reduce radiologist workload, enhance linguistic consistency, shorten processing time, and improve diagnostic accuracy.
+CLARA is a **production‑ready vision‑language AI system** that automatically generates structured radiology reports (Findings & Impressions) from chest X‑rays in **Vietnamese**.  
+It was developed as a **Capstone Project** at **FPT University** and is designed to assist radiologists by reducing workload, improving consistency, and accelerating clinical workflows.
 
-## Key Highlights
+---
 
-- **Massive Medical Dataset (ViX-Ray):** Fine-tuned on a comprehensive, high-quality dataset of Vietnamese medical chest X-ray samples.
-- **State-of-the-Art VLM (Qwen2-VL-7B-Instruct):** Chosen for its dynamic resolution vision encoder and superior multilingual alignment.
-- **Progressive 3-Stage Training Pipeline:** 
-  1. **Findings Generation:** Training the model to recognize anatomical features and pathologies.
-  2. **Impressions Generation:** Summarizing findings into accurate diagnostic conclusions.
-  3. **Multi-turn Chat:** Enabling interactive conversational diagnoses.
-- **Optimized for High-Performance Hardware:** Trained using **DeepSpeed ZeRO-3, CPU Offload, Gradient Checkpointing, and BF16 precision** across 7x NVIDIA RTX 5090 GPUs.
+##  Key Results
 
-## System Architecture & Deployment
+| Metric | Value |
+|--------|-------|
+| **BLEU Score** | 89.2 |
+| **Blind‑Pass Rate (Doctor Evaluation)** | 74.5% |
+| **Training Data** | 137,930 chest X‑ray examinations |
 
-The system is designed with a **Production-Ready Mindset**, featuring 3 distinct inference backends:
+*The fine‑tuned Qwen2‑VL‑7B significantly outperformed smaller baseline models in both lexical quality and clinical acceptance.*
 
-1. **Native PyTorch (HuggingFace):** Traditional inference, suitable for development and debug.
-2. **vLLM-Accelerated Serving:** Provides high-throughput, memory-efficient serving designed tailored for large language models. Features continuous batching and PagedAttention.
-3. **NVIDIA Triton Inference Server (Docker):** Enterprise-ready, highly scalable containerized framework featuring dynamic batching and optimal resource orchestration.
+---
 
-### Inference Pipeline
-- **Frontend Context Input**: A web-based user interface or Gradio interface dynamically constructs prompt templates embedding the patient's Age and Gender.
-- **FastAPI Gateway**: Orchestrates requests and passes image tensors + queries to the inference engine.
-- **Two-Turn Reasoning (Chain of Thought)**: 
-  - *Turn 1*: Extract detailed visual findings.
-  - *Turn 2*: Consolidate extracted findings into a final diagnosis.
+##  Technical Deep Dive
 
-## Evaluation Metrics
-Our models are subjected to rigorous evaluations aligning with clinical and NLP standards:
-- **Lexical Quality:** Evaluated automatically using **BLEU** and **ROUGE-L** scores.
-- **Clinical Factual Integrity:** Assessed via **Precision** and **Recall** of atomic medical facts.
-- **Doctor Benchmark:** Qualitatively vetted by active radiologists at Military Hospital 175 on diagnostic accuracy and information completeness on a 1-5 scale. *Qwen2-VL-7B significantly outperformed smaller baseline models across all testing methodologies.*
+### Model & Training
+- **Base model:** [Qwen2‑VL‑7B‑Instruct](https://huggingface.co/Qwen/Qwen2-VL-7B-Instruct) – chosen for its dynamic vision encoder and strong multilingual alignment.
+- **Training strategy:** 3‑stage progressive pipeline (Findings → Impressions → Multi‑turn chat) using **DeepSpeed ZeRO‑3**, **CPU offload**, gradient checkpointing, and **BF16** precision.
+- **Infrastructure:** Distributed training across **7 × NVIDIA RTX 5090** GPUs.
 
-## System Requirements
+### System Architecture
+- **Multi‑stage reasoning:**  
+  1. Image encoding  
+  2. Detailed findings generation  
+  3. Diagnostic impression generation  
+  4. Optional multi‑turn refinement
+- **Inference backends:**  
+  - **vLLM** – high‑throughput serving with continuous batching  
+  - **NVIDIA Triton** – enterprise‑grade, containerized deployment  
+  - Native PyTorch – for development and debugging
+- **API & Frontend:** FastAPI gateway + Gradio UI for easy clinician interaction.
 
-> **⚠️ Minimum Hardware Notice**  
-> Running the 7 Billion parameter `Qwen2-VL-7B` model requires substantial computational resources. 
-> - **GPU/VRAM:** Minimum **24GB VRAM** (e.g., RTX 3090, RTX 4090, A10) for inference.
-> - **Storage:** Sufficient space to store model weights (approx. 15-20 GB depending on precision).
-> - **OS:** Ubuntu/Linux or Windows Subsystem for Linux (WSL2) is strongly recommended for `vllm` and `triton` compatibility.
+---
 
-- **Python 3.8+**
-- **Docker & Docker Compose** (for Triton Server)
+##  Skills Demonstrated
 
+| Category | Technologies / Methods |
+|----------|------------------------|
+| **AI/ML** | Vision‑Language Models (VLM), Large Language Models (LLM), Fine‑tuning (LoRA), DeepSpeed, BF16, Chain‑of‑Thought |
+| **Backend & API** | FastAPI, RESTful API design, asynchronous processing |
+| **Inference Optimization** | vLLM (PagedAttention, continuous batching), NVIDIA Triton Inference Server, Docker containerization |
+| **System Integration** | Modular pipeline design, scalable architecture, production‑grade deployment |
+| **Evaluation** | BLEU, ROUGE‑L, precision/recall for clinical facts, blind evaluation by radiologists |
+
+---
+
+##  Hardware & Requirements
+
+- **GPU:** Minimum 24GB VRAM (e.g., RTX 3090, RTX 4090, A10) for inference; training required multi‑GPU setup.
+- **Storage:** ~15–20 GB for model weights.
+- **OS:** Ubuntu/Linux or WSL2 recommended for vLLM and Triton compatibility.
+- **Python 3.8+**, Docker, and Docker Compose.
+
+---
 ## Installation & Usage
 
 **1. Clone the repository**
